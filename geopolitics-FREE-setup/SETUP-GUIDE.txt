@@ -1,0 +1,137 @@
+# GEOPOLITICS NOW — FREE Setup Guide
+## Total cost: $0/month. Takes 20 minutes.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## STEP 1 — Get your FREE Gemini API Key (5 min)
+
+1. Open: aistudio.google.com
+2. Sign in with any Google account (Gmail works)
+3. Click "Get API Key" (top left)
+4. Click "Create API key in new project"
+5. Copy the key — it looks like: AIzaSy...
+   (Save it somewhere, you'll need it in Step 3)
+
+No credit card. No charges. Ever.
+Free limit: 1,500 requests/day — you only use ~15/day.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## STEP 2 — Create GitHub Account + Repository (5 min)
+
+1. Go to github.com → Sign up (free)
+2. Verify your email
+3. Click the "+" icon (top right) → "New repository"
+4. Repository name: geopolitics-now
+5. Set to: Public
+6. Click "Create repository"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## STEP 3 — Add your API Key to GitHub (2 min)
+
+This keeps your key secret and secure.
+
+1. In your new repo, click "Settings" (top menu bar)
+2. Left sidebar → "Secrets and variables" → "Actions"
+3. Click "New repository secret"
+4. Name:  GEMINI_API_KEY
+5. Value: paste your AIzaSy... key
+6. Click "Add secret" ✓
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## STEP 4 — Upload Your Files (5 min)
+
+You need to upload these 4 files to GitHub:
+
+  generate-content.js
+  package.json
+  netlify.toml
+  .github/workflows/daily-update.yml  ← this one needs a folder
+
+HOW TO UPLOAD:
+
+For generate-content.js, package.json, netlify.toml:
+1. In your repo click "Add file" → "Upload files"
+2. Drag and drop all three files
+3. Click "Commit changes"
+
+For the workflow file (needs to be in a folder):
+1. Click "Add file" → "Create new file"
+2. In the filename box type exactly:
+   .github/workflows/daily-update.yml
+3. Open daily-update.yml on your computer, copy all the text
+4. Paste it into the big text box
+5. Click "Commit new file"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## STEP 5 — Connect Netlify to GitHub (5 min)
+
+Right now Netlify has your old static file.
+We need to connect it to GitHub so it auto-updates.
+
+1. Go to app.netlify.com → click your site
+2. Click "Site configuration"
+3. Click "Build & deploy" → "Link repository"
+4. Choose "GitHub" → click "Authorize Netlify"
+5. Find and select "geopolitics-now"
+6. Set these:
+   - Build command: (leave completely empty)
+   - Publish directory: dist
+7. Click "Deploy site"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## STEP 6 — Run Your First Build (1 min)
+
+1. In your GitHub repo, click the "Actions" tab
+2. Click "Daily Content Generation" in the left list
+3. Click "Run workflow" → "Run workflow" (green button)
+4. Wait ~2 minutes while it runs
+5. When you see a green ✓ — your site is live!
+
+Go to your Netlify URL and refresh. Fresh AI content!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## WHAT HAPPENS EVERY DAY (automatically)
+
+06:00am UTC  →  GitHub wakes up automatically
+               Gemini AI writes today's content:
+               • 5 breaking news articles
+               • 3 opinion essays  
+               • 8 ticker headlines
+               • 4 global indicators
+               Builds the full website
+               Pushes to GitHub
+               Netlify publishes it
+06:03am UTC  →  Your site is live with fresh content
+
+You do nothing. It just happens.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## COST SUMMARY
+
+  Gemini API      FREE (Google)
+  GitHub          FREE
+  Netlify         FREE
+  ─────────────────────────
+  TOTAL           $0 / month
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## IF SOMETHING GOES WRONG
+
+Most common issue: Build fails in GitHub Actions
+
+Fix:
+1. Click "Actions" tab in your repo
+2. Click the red ✗ failed job
+3. Read the error message
+4. 90% of the time it says "API key not found"
+   → Go back to Step 3 and re-add the secret
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

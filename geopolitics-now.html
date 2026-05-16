@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geopolitics Now</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #082052;
+    --navy-mid: #0d2d6e;
+    --navy-light: #1a3d82;
+    --cream: #F8F0E5;
+    --cream-dark: #ede4d4;
+    --gold: #c9a84c;
+    --muted: #6b7fa8;
+    --line: rgba(8,32,82,0.1);
+    --line-light: rgba(8,32,82,0.06);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--navy);
+    font-family: 'Crimson Pro', serif;
+    font-size: 18px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: 0.5;
+  }
+
+  /* TICKER */
+  .ticker-wrap {
+    background: var(--navy); color: var(--cream);
+    padding: 9px 0; overflow: hidden; position: relative;
+  }
+  .ticker-wrap::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .ticker-inner { display: flex; align-items: center; }
+  .ticker-label {
+    font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.22em;
+    text-transform: uppercase; background: var(--gold); color: var(--navy);
+    padding: 3px 16px; white-space: nowrap; flex-shrink: 0; margin-right: 24px; font-weight: 500;
+  }
+  .ticker-track {
+    display: flex; animation: ticker 45s linear infinite; white-space: nowrap;
+  }
+  .ticker-track span {
+    font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.07em;
+    padding-right: 64px; color: rgba(248,240,229,0.55);
+  }
+  .ticker-track span strong { color: var(--cream); font-weight: 500; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* HEADER */
+  header { border-bottom: 1px solid var(--line); padding: 0 48px; background: var(--cream); }
+  .header-top {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 0 12px; border-bottom: 1px solid var(--line);
+  }
+  .date-stamp {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
+  }
+  .edition-badge {
+    font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--navy); border: 1px solid var(--navy); padding: 3px 12px;
+  }
+
+  .masthead {
+    display: grid; grid-template-columns: 1fr auto 1fr;
+    align-items: center; padding: 28px 0 22px; border-bottom: 1px solid var(--line);
+  }
+  .masthead-left span {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--muted); display: block; line-height: 1.8;
+  }
+  .site-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6.5vw, 92px);
+    letter-spacing: 0.05em; line-height: 0.9; color: var(--navy); text-align: center;
+    text-shadow:
+      1px 1px 0 rgba(8,32,82,0.4), 2px 2px 0 rgba(8,32,82,0.28),
+      3px 3px 0 rgba(8,32,82,0.16), 4px 4px 0 rgba(8,32,82,0.08),
+      0 8px 24px rgba(8,32,82,0.15);
+    transition: text-shadow 0.3s;
+  }
+  .site-title:hover {
+    text-shadow:
+      1px 1px 0 rgba(8,32,82,0.5), 2px 2px 0 rgba(8,32,82,0.38),
+      3px 3px 0 rgba(8,32,82,0.24), 4px 4px 0 rgba(8,32,82,0.14),
+      5px 5px 0 rgba(8,32,82,0.06), 0 12px 32px rgba(8,32,82,0.2);
+  }
+  .title-deco {
+    display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 8px;
+  }
+  .title-deco::before, .title-deco::after { content: ''; height: 1px; width: 52px; background: var(--gold); }
+  .title-star-deco {
+    width: 10px; height: 10px; background: var(--gold);
+    transform: rotate(45deg); box-shadow: 0 2px 8px rgba(201,168,76,0.5);
+  }
+  .masthead-right { display: flex; justify-content: flex-end; gap: 20px; align-items: center; }
+  .masthead-right a {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s;
+  }
+  .masthead-right a:hover { color: var(--navy); }
+
+  nav { display: flex; align-items: center; overflow-x: auto; }
+  nav a {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--navy); text-decoration: none;
+    padding: 14px 20px; border-right: 1px solid var(--line);
+    transition: all 0.2s; white-space: nowrap; position: relative; opacity: 0.65;
+  }
+  nav a:first-child { border-left: 1px solid var(--line); }
+  nav a::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: var(--gold); transform: scaleX(0); transition: transform 0.25s;
+  }
+  nav a:hover { opacity: 1; }
+  nav a:hover::after, nav a.active::after { transform: scaleX(1); }
+  nav a.active { opacity: 1; }
+  .nav-spacer { flex: 1; }
+  .nav-subscribe {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; background: var(--navy); color: var(--cream);
+    border: none; padding: 11px 24px; cursor: pointer; margin-left: 16px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 0 #04122e, 0 6px 14px rgba(8,32,82,0.28);
+  }
+  .nav-subscribe:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #04122e, 0 10px 22px rgba(8,32,82,0.32); }
+  .nav-subscribe:active { transform: translateY(2px); box-shadow: 0 2px 0 #04122e; }
+
+  main { padding: 0 48px; max-width: 1440px; margin: 0 auto; }
+
+  /* HERO */
+  .hero {
+    display: grid; grid-template-columns: 1fr 360px; gap: 0;
+    border-bottom: 1px solid var(--line); padding: 52px 0 48px;
+    animation: fadeUp 0.7s ease both;
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+  .hero-main { padding-right: 52px; border-right: 1px solid var(--line); }
+  .breaking-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--navy); color: var(--cream);
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase;
+    padding: 5px 14px; margin-bottom: 22px;
+    box-shadow: 0 4px 14px rgba(8,32,82,0.22), inset 0 1px 0 rgba(255,255,255,0.07);
+  }
+  .live-pulse {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--gold);
+    animation: lpulse 1.6s ease-in-out infinite;
+  }
+  @keyframes lpulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.8); }
+  }
+  .hero-kicker {
+    font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 18px; display: block;
+  }
+  .hero-headline {
+    font-family: 'Playfair Display', serif; font-size: clamp(30px, 3.8vw, 54px);
+    font-weight: 900; line-height: 1.06; letter-spacing: -0.01em;
+    margin-bottom: 22px; color: var(--navy);
+  }
+  .hero-headline em { font-style: italic; }
+  .hero-deck {
+    font-family: 'Crimson Pro', serif; font-size: 19px; line-height: 1.65;
+    color: rgba(8,32,82,0.65); margin-bottom: 30px; font-weight: 300; max-width: 540px;
+  }
+  .hero-meta {
+    display: flex; align-items: center; gap: 16px;
+    font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em;
+    color: var(--muted); text-transform: uppercase;
+  }
+  .hero-meta .author { color: var(--navy); font-weight: 500; }
+  .hero-meta .dot { opacity: 0.3; }
+
+  /* 3D HERO CARD */
+  .hero-visual { width: 100%; height: 290px; margin-top: 32px; perspective: 900px; }
+  .globe-card {
+    width: 100%; height: 100%;
+    background: linear-gradient(145deg, var(--navy) 0%, var(--navy-mid) 55%, #081a44 100%);
+    position: relative; overflow: hidden;
+    transform: rotateX(5deg) rotateY(-4deg);
+    box-shadow: 10px 18px 44px rgba(8,32,82,0.38), 0 2px 0 rgba(255,255,255,0.05) inset, -1px -2px 0 rgba(0,0,0,0.25) inset;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .globe-card:hover {
+    transform: rotateX(2deg) rotateY(-1deg);
+    box-shadow: 14px 26px 56px rgba(8,32,82,0.44);
+  }
+  .globe-grid {
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(248,240,229,0.04) 30px, rgba(248,240,229,0.04) 31px),
+      repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(248,240,229,0.04) 30px, rgba(248,240,229,0.04) 31px);
+  }
+  .gc { position: absolute; border-radius: 50%; border: 1px solid rgba(201,168,76,0.22); }
+  .gc1 { width: 320px; height: 320px; top: -70px; right: -70px; }
+  .gc2 { width: 200px; height: 200px; top: -10px; right: -10px; border-color: rgba(248,240,229,0.07); }
+  .gc3 { width: 100px; height: 100px; top: 40px; right: 50px; border-color: rgba(201,168,76,0.13); }
+  .globe-text {
+    position: absolute; top: 20px; left: 22px;
+    font-family: 'Bebas Neue', sans-serif; font-size: 84px;
+    color: rgba(248,240,229,0.04); letter-spacing: 0.06em; line-height: 1;
+  }
+  .globe-star-svg {
+    position: absolute; bottom: 36px; right: 36px; width: 34px; height: 34px;
+    filter: drop-shadow(0 0 14px rgba(201,168,76,0.7));
+  }
+  .globe-label {
+    position: absolute; bottom: 16px; left: 20px;
+    font-family: 'DM Mono', monospace; font-size: 8.5px; letter-spacing: 0.22em;
+    color: rgba(248,240,229,0.28); text-transform: uppercase;
+  }
+
+  .hero-sidebar { padding-left: 44px; display: flex; flex-direction: column; }
+  .sidebar-label {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--muted); padding-bottom: 14px;
+    border-bottom: 2px solid var(--navy);
+  }
+  .sidebar-story {
+    padding: 20px 0; border-bottom: 1px solid var(--line);
+    cursor: pointer; transition: padding-left 0.2s;
+  }
+  .sidebar-story:hover { padding-left: 8px; }
+  .sidebar-story .num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 26px;
+    color: rgba(8,32,82,0.1); line-height: 1; margin-bottom: 5px;
+  }
+  .sidebar-story .s-tag {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 6px; display: block;
+  }
+  .sidebar-story h3 {
+    font-family: 'Playfair Display', serif; font-size: 15.5px;
+    font-weight: 700; line-height: 1.3; color: var(--navy);
+  }
+  .sidebar-story .s-time {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.1em;
+    color: var(--muted); margin-top: 8px; display: block;
+  }
+
+  /* SECTION HEAD */
+  .section-head { display: flex; align-items: center; gap: 16px; padding: 44px 0 28px; }
+  .section-head h2 {
+    font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.38em;
+    text-transform: uppercase; color: var(--navy); white-space: nowrap;
+  }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+  .section-head .tag {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted); white-space: nowrap;
+  }
+
+  /* OPINION */
+  .opinion-grid {
+    display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 0;
+    border-top: 2px solid var(--navy); border-bottom: 1px solid var(--line); margin-bottom: 60px;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  .opinion-featured { padding: 40px 44px 40px 0; border-right: 1px solid var(--line); }
+  .opinion-featured::before {
+    content: 'Featured Opinion'; font-family: 'DM Mono', monospace; font-size: 8.5px;
+    letter-spacing: 0.4em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 24px;
+  }
+  .pull-quote {
+    font-family: 'Playfair Display', serif; font-size: clamp(20px, 2.5vw, 31px);
+    font-style: italic; font-weight: 400; line-height: 1.28; color: var(--navy);
+    border-left: 3px solid var(--gold); padding-left: 24px; margin-bottom: 28px;
+  }
+  .opinion-author-block { display: flex; align-items: center; gap: 14px; }
+  .author-avatar {
+    width: 46px; height: 46px; border-radius: 50%; background: var(--navy); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-size: 18px; color: var(--cream); font-style: italic;
+    box-shadow: 0 4px 12px rgba(8,32,82,0.28), 0 1px 0 rgba(255,255,255,0.08) inset;
+  }
+  .author-info .name {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+    font-weight: 500; color: var(--navy); display: block;
+  }
+  .author-info .role {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.08em;
+    color: var(--muted); display: block; margin-top: 2px;
+  }
+  .opinion-col {
+    padding: 40px 32px; border-right: 1px solid var(--line); display: flex; flex-direction: column;
+  }
+  .opinion-col:last-child { border-right: none; }
+  .opinion-col::before {
+    content: 'Opinion'; font-family: 'DM Mono', monospace; font-size: 8.5px;
+    letter-spacing: 0.4em; color: var(--muted); text-transform: uppercase; display: block; margin-bottom: 20px;
+  }
+  .opinion-col h3 {
+    font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700;
+    line-height: 1.28; margin-bottom: 14px; flex: 1; color: var(--navy);
+  }
+  .opinion-col p {
+    font-size: 14.5px; line-height: 1.6; color: rgba(8,32,82,0.6); font-weight: 300; margin-bottom: 20px;
+  }
+  .read-more {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--navy); text-decoration: none; border-bottom: 1px solid var(--navy); padding-bottom: 2px;
+    display: inline-block; transition: color 0.2s, border-color 0.2s, opacity 0.2s;
+    align-self: flex-start; margin-top: auto; opacity: 0.65;
+  }
+  .read-more:hover { opacity: 1; color: var(--gold); border-color: var(--gold); }
+
+  /* 3D DATA STRIP */
+  .data-strip {
+    background: var(--navy); margin: 0 -48px 60px; padding: 38px 48px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    position: relative; overflow: hidden;
+    box-shadow: 0 10px 48px rgba(8,32,82,0.22), 0 -1px 0 rgba(255,255,255,0.04) inset;
+  }
+  .data-strip::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent);
+  }
+  .data-strip::after {
+    content: 'GLOBAL INDICATORS'; position: absolute; top: -10px; left: 48px;
+    font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.3em;
+    background: var(--navy); color: rgba(248,240,229,0.28); padding: 0 8px;
+  }
+  .data-bg {
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 24px, rgba(248,240,229,0.02) 24px, rgba(248,240,229,0.02) 25px),
+      repeating-linear-gradient(90deg, transparent, transparent 24px, rgba(248,240,229,0.02) 24px, rgba(248,240,229,0.02) 25px);
+    pointer-events: none;
+  }
+  .data-item {
+    padding: 0 32px; border-right: 1px solid rgba(248,240,229,0.08); position: relative; z-index: 1;
+  }
+  .data-item:first-child { padding-left: 0; }
+  .data-item:last-child { border-right: none; }
+  .data-item .label {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: rgba(248,240,229,0.32); margin-bottom: 8px; display: block;
+  }
+  .data-item .value {
+    font-family: 'Bebas Neue', sans-serif; font-size: 44px; line-height: 1;
+    letter-spacing: 0.03em; color: var(--cream); display: block;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.45), 2px 2px 0 rgba(0,0,0,0.28), 3px 3px 0 rgba(0,0,0,0.14), 0 6px 18px rgba(0,0,0,0.3);
+  }
+  .data-item .change {
+    font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.1em; margin-top: 6px; display: block;
+  }
+  .change.up { color: #7ec8a4; }
+  .change.neutral { color: rgba(248,240,229,0.38); }
+  .change.down { color: #f0a070; }
+
+  /* BREAKING CARDS */
+  .breaking-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    border-top: 2px solid var(--navy); margin-bottom: 64px;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+  .breaking-card {
+    padding: 32px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.2s;
+    position: relative; display: flex; flex-direction: column; background: var(--cream);
+  }
+  .breaking-card:hover {
+    transform: translateY(-5px) scale(1.006);
+    box-shadow: 0 14px 36px rgba(8,32,82,0.13), 0 3px 10px rgba(8,32,82,0.07);
+    background: #fdf7ef; z-index: 2;
+  }
+  .breaking-card:nth-child(3n) { border-right: none; }
+  .breaking-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--navy), var(--navy-light));
+    transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
+  }
+  .breaking-card:hover::before { transform: scaleX(1); }
+  .card-region {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .card-dot.live { background: #5ba87c; animation: lpulse 1.5s infinite; }
+  .breaking-card h3 {
+    font-family: 'Playfair Display', serif; font-size: 18.5px; font-weight: 700;
+    line-height: 1.28; margin-bottom: 12px; color: var(--navy);
+  }
+  .breaking-card p {
+    font-size: 14px; line-height: 1.6; color: rgba(8,32,82,0.52); font-weight: 300; margin-bottom: 18px; flex: 1;
+  }
+  .card-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.1em;
+    color: var(--muted); text-transform: uppercase;
+    border-top: 1px solid var(--line-light); padding-top: 12px;
+  }
+  .breaking-card.large {
+    grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+  }
+  .breaking-card.large .card-content { display: flex; flex-direction: column; }
+  .breaking-card.large h3 { font-size: 26px; line-height: 1.2; }
+  .card-visual {
+    background: linear-gradient(145deg, var(--navy) 0%, #0d2460 55%, #06184a 100%);
+    position: relative; overflow: hidden; min-height: 200px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), inset 0 -1px 0 rgba(0,0,0,0.2);
+  }
+  .cv-lines {
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 24px, rgba(248,240,229,0.03) 24px, rgba(248,240,229,0.03) 25px),
+      repeating-linear-gradient(90deg, transparent, transparent 24px, rgba(248,240,229,0.03) 24px, rgba(248,240,229,0.03) 25px);
+  }
+  .cv-c1 { position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; border: 1px solid rgba(201,168,76,0.2); border-radius: 50%; }
+  .cv-c2 { position: absolute; top: 0; right: 0; width: 110px; height: 110px; border: 1px solid rgba(248,240,229,0.05); border-radius: 50%; }
+  .cv-txt { position: absolute; top: 18px; left: 16px; font-family: 'Bebas Neue', sans-serif; font-size: 64px; color: rgba(248,240,229,0.04); letter-spacing: 0.06em; line-height: 1; }
+  .cv-star { position: absolute; bottom: 22px; right: 22px; width: 30px; height: 30px; filter: drop-shadow(0 0 10px rgba(201,168,76,0.65)); }
+
+  /* 3D GLOBE FEATURE */
+  .globe-feature {
+    display: grid; grid-template-columns: 1fr 400px; gap: 0;
+    border-top: 2px solid var(--navy); border-bottom: 1px solid var(--line); margin-bottom: 64px; overflow: hidden;
+  }
+  .globe-feature-text { padding: 52px 52px 52px 0; border-right: 1px solid var(--line); }
+  .globe-feature-text::before {
+    content: 'In Focus'; font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.35em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 20px;
+  }
+  .globe-feature-text h2 {
+    font-family: 'Playfair Display', serif; font-size: clamp(24px, 2.8vw, 38px);
+    font-weight: 900; line-height: 1.1; color: var(--navy); margin-bottom: 18px;
+  }
+  .globe-feature-text p {
+    font-size: 17px; line-height: 1.7; color: rgba(8,32,82,0.62); font-weight: 300; margin-bottom: 28px; max-width: 460px;
+  }
+  .sphere-container {
+    background: var(--navy); display: flex; align-items: center; justify-content: center;
+    padding: 48px; position: relative; overflow: hidden;
+  }
+  .sphere-container::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 25% 30%, rgba(201,168,76,0.07) 0%, transparent 60%);
+  }
+  .sphere-wrap { position: relative; width: 240px; height: 240px; }
+
+  /* Orbit rings */
+  .orbit-ring {
+    position: absolute; border-radius: 50%; border: 1px solid rgba(201,168,76,0.18);
+    top: 50%; left: 50%; animation: orbitSpin 12s linear infinite;
+  }
+  .orbit-ring:nth-child(1) { width: 300px; height: 300px; margin: -150px 0 0 -150px; }
+  .orbit-ring:nth-child(2) { width: 356px; height: 356px; margin: -178px 0 0 -178px; border-color: rgba(248,240,229,0.05); animation-duration: 20s; animation-direction: reverse; }
+  @keyframes orbitSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .orbit-dot { position: absolute; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); top: 0; left: 50%; margin-left: -3.5px; box-shadow: 0 0 10px rgba(201,168,76,0.9); }
+
+  .sphere {
+    width: 240px; height: 240px; border-radius: 50%; position: relative;
+    background: radial-gradient(circle at 33% 33%, #1a3d82 0%, #0d2460 38%, #082052 66%, #04122e 100%);
+    box-shadow: inset -22px -22px 60px rgba(0,0,0,0.55), inset 12px 12px 40px rgba(248,240,229,0.055), 0 24px 64px rgba(0,0,0,0.5), 0 4px 0 rgba(0,0,0,0.35);
+    overflow: hidden;
+  }
+  .sphere-grid-lines {
+    position: absolute; inset: 0; border-radius: 50%;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 22px, rgba(248,240,229,0.055) 22px, rgba(248,240,229,0.055) 23px),
+      repeating-linear-gradient(90deg, transparent, transparent 22px, rgba(248,240,229,0.055) 22px, rgba(248,240,229,0.055) 23px);
+  }
+  .sphere-shine {
+    position: absolute; top: 15%; left: 20%; width: 32%; height: 22%;
+    background: radial-gradient(ellipse, rgba(248,240,229,0.11) 0%, transparent 100%);
+    border-radius: 50%; transform: rotate(-30deg);
+  }
+  .sphere-star-svg {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 38px; height: 38px; filter: drop-shadow(0 0 18px rgba(201,168,76,0.85));
+  }
+
+  /* ANALYSIS */
+  .analysis-grid {
+    display: grid; grid-template-columns: 240px 1fr; gap: 0;
+    border-top: 2px solid var(--navy); margin-bottom: 64px;
+  }
+  .analysis-label-col {
+    padding: 44px 44px 44px 0; border-right: 1px solid var(--line);
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .analysis-label-col h2 {
+    font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.32em;
+    text-transform: uppercase; color: var(--navy);
+    writing-mode: vertical-rl; transform: rotate(180deg); align-self: flex-start;
+  }
+  .analysis-label-col .view-all {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s;
+  }
+  .analysis-label-col .view-all:hover { color: var(--navy); }
+  .analysis-stories { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .analysis-story {
+    padding: 40px 32px; border-right: 1px solid var(--line);
+    cursor: pointer; transition: background 0.2s;
+  }
+  .analysis-story:last-child { border-right: none; }
+  .analysis-story:hover { background: var(--cream-dark); }
+  .story-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: rgba(8,32,82,0.06);
+    line-height: 1; margin-bottom: 14px;
+    text-shadow: 1px 1px 0 rgba(8,32,82,0.04), 2px 2px 0 rgba(8,32,82,0.02);
+  }
+  .region-tag {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 10px; display: block;
+  }
+  .analysis-story h3 {
+    font-family: 'Playfair Display', serif; font-size: 17.5px; font-weight: 700;
+    line-height: 1.3; margin-bottom: 12px; color: var(--navy);
+  }
+  .analysis-story p {
+    font-size: 13.5px; line-height: 1.65; color: rgba(8,32,82,0.52); font-weight: 300;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy); color: var(--cream); margin: 0 -48px; padding: 0 48px; position: relative;
+  }
+  footer::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 1fr 1fr 1fr 1.5fr; gap: 0;
+    border-bottom: 1px solid rgba(248,240,229,0.08); padding: 60px 0 52px;
+  }
+  .footer-col {
+    padding-right: 44px; border-right: 1px solid rgba(248,240,229,0.07); margin-right: 44px;
+  }
+  .footer-col:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+  .footer-col h4 {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.32em;
+    text-transform: uppercase; color: rgba(248,240,229,0.28);
+    margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid rgba(248,240,229,0.07);
+  }
+  .footer-col a {
+    display: block; font-family: 'Crimson Pro', serif; font-size: 15.5px;
+    color: rgba(248,240,229,0.58); text-decoration: none; margin-bottom: 10px; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--cream); }
+  .newsletter-form { display: flex; flex-direction: column; gap: 10px; }
+  .newsletter-form p { font-size: 14px; color: rgba(248,240,229,0.42); font-family: 'Crimson Pro', serif; line-height: 1.55; margin-bottom: 4px; }
+  .newsletter-form input {
+    background: rgba(248,240,229,0.05); border: 1px solid rgba(248,240,229,0.12);
+    color: var(--cream); padding: 12px 16px;
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.05em;
+    outline: none; transition: border-color 0.2s, background 0.2s;
+  }
+  .newsletter-form input::placeholder { color: rgba(248,240,229,0.18); }
+  .newsletter-form input:focus { border-color: var(--gold); background: rgba(248,240,229,0.08); }
+  .newsletter-form button {
+    background: var(--gold); color: var(--navy); border: none; padding: 13px 20px;
+    font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.22em;
+    text-transform: uppercase; cursor: pointer; font-weight: 500;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 0 #8a6f2a, 0 6px 16px rgba(201,168,76,0.22);
+  }
+  .newsletter-form button:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #8a6f2a, 0 10px 22px rgba(201,168,76,0.28); }
+  .newsletter-form button:active { transform: translateY(2px); box-shadow: 0 2px 0 #8a6f2a; }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
+  .footer-bottom .copy { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.14em; color: rgba(248,240,229,0.18); }
+  .footer-brand {
+    font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 0.08em; color: rgba(248,240,229,0.09);
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.3), 2px 2px 0 rgba(0,0,0,0.15);
+  }
+
+  @media (max-width: 1000px) {
+    header, main, footer { padding-left: 24px; padding-right: 24px; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-main { padding-right: 0; border-right: none; border-bottom: 1px solid var(--line); padding-bottom: 36px; margin-bottom: 36px; }
+    .hero-sidebar { padding-left: 0; }
+    .masthead { grid-template-columns: 1fr; text-align: center; gap: 14px; }
+    .masthead-left, .masthead-right { justify-content: center; }
+    .breaking-grid { grid-template-columns: 1fr; }
+    .breaking-card.large { grid-column: span 1; grid-template-columns: 1fr; }
+    .opinion-grid { grid-template-columns: 1fr; }
+    .data-strip { grid-template-columns: repeat(2, 1fr); margin: 0 -24px 48px; padding: 32px 24px; gap: 24px; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .analysis-grid { grid-template-columns: 1fr; }
+    .analysis-stories { grid-template-columns: 1fr; }
+    .globe-feature { grid-template-columns: 1fr; }
+    .globe-feature-text { border-right: none; padding: 36px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span class="ticker-label">Live Updates</span>
+    <div style="overflow:hidden;flex:1;">
+      <div class="ticker-track">
+        <span><strong>MIDDLE EAST</strong> — Ceasefire talks resume in Cairo as international mediators convene emergency session</span>
+        <span><strong>EUROPE</strong> — NATO summit communiqué signals expanded eastern flank deployments through 2027</span>
+        <span><strong>ASIA-PACIFIC</strong> — South China Sea: Manila confirms third naval incident near Scarborough Shoal this month</span>
+        <span><strong>AMERICAS</strong> — US Senate advances landmark sanctions package targeting three state actors</span>
+        <span><strong>AFRICA</strong> — Sahel security vacuum deepens as French forces complete withdrawal from Mali</span>
+        <span><strong>MIDDLE EAST</strong> — Ceasefire talks resume in Cairo as international mediators convene emergency session</span>
+        <span><strong>EUROPE</strong> — NATO summit communiqué signals expanded eastern flank deployments through 2027</span>
+        <span><strong>ASIA-PACIFIC</strong> — South China Sea: Manila confirms third naval incident near Scarborough Shoal this month</span>
+        <span><strong>AMERICAS</strong> — US Senate advances landmark sanctions package targeting three state actors</span>
+        <span><strong>AFRICA</strong> — Sahel security vacuum deepens as French forces complete withdrawal from Mali</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <span class="date-stamp">Tuesday, 13 May 2026 &nbsp;·&nbsp; Global Edition</span>
+    <span class="edition-badge">Morning Brief</span>
+  </div>
+  <div class="masthead">
+    <div class="masthead-left">
+      <span>Est. 2024</span>
+      <span>Independent Analysis</span>
+    </div>
+    <div>
+      <div class="site-title">Geopolitics Now</div>
+      <div class="title-deco"><div class="title-star-deco"></div></div>
+    </div>
+    <div class="masthead-right">
+      <a href="#">Search</a>
+      <a href="#">Archive</a>
+      <a href="#">Login</a>
+    </div>
+  </div>
+  <nav>
+    <a href="#" class="active">Home</a>
+    <a href="#">Breaking</a>
+    <a href="#">Opinion</a>
+    <a href="#">Middle East</a>
+    <a href="#">Europe</a>
+    <a href="#">Asia-Pacific</a>
+    <a href="#">Americas</a>
+    <a href="#">Africa</a>
+    <a href="#">Economy</a>
+    <div class="nav-spacer"></div>
+    <button class="nav-subscribe">Subscribe</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-main">
+      <div class="breaking-pill"><div class="live-pulse"></div>Breaking</div>
+      <span class="hero-kicker">Exclusive Analysis · Middle East</span>
+      <h1 class="hero-headline">The <em>Fractured</em> Order: How the Gulf Is Rewriting Its Own Rules</h1>
+      <p class="hero-deck">A wave of bilateral security pacts between Gulf states signals a fundamental departure from the post-1991 framework — and Washington is watching with a mixture of relief and alarm.</p>
+      <div class="hero-meta">
+        <span class="author">Dr. Layla Hassan</span><span class="dot">·</span>
+        <span>Senior Correspondent</span><span class="dot">·</span>
+        <span>47 min ago</span><span class="dot">·</span><span>12 min read</span>
+      </div>
+      <div class="hero-visual">
+        <div class="globe-card">
+          <div class="globe-grid"></div>
+          <div class="gc gc1"></div><div class="gc gc2"></div><div class="gc gc3"></div>
+          <div class="globe-text">GULF</div>
+          <svg class="globe-star-svg" viewBox="0 0 40 40" fill="none">
+            <path d="M20 2 L21.6 17.4 L37 20 L21.6 22.6 L20 38 L18.4 22.6 L3 20 L18.4 17.4 Z" fill="#c9a84c"/>
+          </svg>
+          <span class="globe-label">Gulf Cooperation Council — Strategic Overview</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-sidebar">
+      <div class="sidebar-label">Also Breaking</div>
+      <div class="sidebar-story">
+        <div class="num">01</div><span class="s-tag">Europe</span>
+        <h3>Berlin Reaches Defence Threshold — What the 2% GDP Milestone Means for NATO</h3>
+        <span class="s-time">1 hour ago</span>
+      </div>
+      <div class="sidebar-story">
+        <div class="num">02</div><span class="s-tag">Asia-Pacific</span>
+        <h3>Taiwan Strait: New Undersea Cable Rerouting Amid Escalating Tensions</h3>
+        <span class="s-time">2 hours ago</span>
+      </div>
+      <div class="sidebar-story">
+        <div class="num">03</div><span class="s-tag">Americas</span>
+        <h3>Venezuela's Maduro Manoeuvres as Opposition Regroups Ahead of 2027</h3>
+        <span class="s-time">3 hours ago</span>
+      </div>
+      <div class="sidebar-story">
+        <div class="num">04</div><span class="s-tag">Africa</span>
+        <h3>Congo Basin Resource Wars: Who Is Really Funding the Armed Groups?</h3>
+        <span class="s-time">4 hours ago</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPINION -->
+  <div class="section-head"><h2>Opinion</h2><span class="tag">Perspectives from our contributors</span></div>
+  <section class="opinion-grid">
+    <div class="opinion-featured">
+      <div class="pull-quote">"The rules-based order was never truly universal — it was a Pax Americana with better branding."</div>
+      <div class="opinion-author-block">
+        <div class="author-avatar">R</div>
+        <div class="author-info">
+          <span class="name">Prof. Rashid Al-Khoury</span>
+          <span class="role">Former UN Security Council Adviser</span>
+        </div>
+      </div>
+    </div>
+    <div class="opinion-col">
+      <h3>Why Europe's Rearmament Will Change Everything — and Change Nothing</h3>
+      <p>The billions are flowing, the rhetoric is shifting. But without strategic autonomy, Europe remains a contractor to its own defence.</p>
+      <a href="#" class="read-more">Read Essay →</a>
+    </div>
+    <div class="opinion-col">
+      <h3>Xi's Taiwan Calculus Is More Patient Than Washington Assumes</h3>
+      <p>American analysts keep expecting a timeline. Beijing is playing an entirely different game — one measured in decades, not election cycles.</p>
+      <a href="#" class="read-more">Read Essay →</a>
+    </div>
+  </section>
+
+  <!-- DATA STRIP -->
+  <div class="data-strip">
+    <div class="data-bg"></div>
+    <div class="data-item"><span class="label">Active Conflicts</span><span class="value">37</span><span class="change up">↑ 3 this quarter</span></div>
+    <div class="data-item"><span class="label">Sanctions Regimes</span><span class="value">94</span><span class="change up">↑ 12 YoY</span></div>
+    <div class="data-item"><span class="label">UN Resolutions '26</span><span class="value">218</span><span class="change neutral">Vetoed: 14</span></div>
+    <div class="data-item"><span class="label">Displaced Persons</span><span class="value">122M</span><span class="change down">↑ Record high</span></div>
+  </div>
+
+  <!-- BREAKING NEWS -->
+  <div class="section-head"><h2>Breaking News</h2><span class="tag">Updated continuously</span></div>
+  <section class="breaking-grid">
+    <div class="breaking-card large">
+      <div class="card-content">
+        <div class="card-region"><div class="card-dot live"></div><span style="color:#5ba87c;">Live</span>&nbsp;·&nbsp;Europe</div>
+        <h3>Emergency G7 Session Convened Over Baltic Sea Incident — Russia Denies Involvement</h3>
+        <p>Western foreign ministers gathered at an emergency virtual summit after a subsea communications cable between Finland and Estonia was severed, with NATO's Stoltenberg calling the incident "deliberate sabotage."</p>
+        <div class="card-footer"><span>James Whitmore · Brussels</span><span>14 min ago</span></div>
+      </div>
+      <div class="card-visual">
+        <div class="cv-lines"></div><div class="cv-c1"></div><div class="cv-c2"></div>
+        <div class="cv-txt">BAL<br>TIC</div>
+        <svg class="cv-star" viewBox="0 0 40 40" fill="none"><path d="M20 2 L21.6 17.4 L37 20 L21.6 22.6 L20 38 L18.4 22.6 L3 20 L18.4 17.4 Z" fill="#c9a84c"/></svg>
+      </div>
+    </div>
+    <div class="breaking-card">
+      <div class="card-region"><div class="card-dot"></div>Asia-Pacific</div>
+      <h3>Philippines Lodges Formal Protest After Navy Vessel Sustains Water-Cannon Damage</h3>
+      <p>Manila's foreign ministry summoned the Chinese ambassador as video footage circulated showing a coast guard confrontation near Ayungin Shoal.</p>
+      <div class="card-footer"><span>Sarah Tan · Manila</span><span>38 min ago</span></div>
+    </div>
+    <div class="breaking-card">
+      <div class="card-region"><div class="card-dot"></div>Middle East</div>
+      <h3>Saudi-Israeli Normalisation Track Resumes Quietly, Sources Confirm</h3>
+      <p>Back-channel negotiations have reportedly resumed in a third country, with both governments maintaining public silence amid domestic sensitivities.</p>
+      <div class="card-footer"><span>Omar Shaikh · Riyadh</span><span>1 hr ago</span></div>
+    </div>
+    <div class="breaking-card">
+      <div class="card-region"><div class="card-dot"></div>Africa</div>
+      <h3>Wagner Successor Group Expands Presence Across Three More Sahel Nations</h3>
+      <p>Russian private military contractors, rebranded under a new structure, are confirmed in Burkina Faso, Niger, and Chad per European intelligence sources.</p>
+      <div class="card-footer"><span>Amina Diop · Dakar</span><span>2 hr ago</span></div>
+    </div>
+    <div class="breaking-card">
+      <div class="card-region"><div class="card-dot"></div>Americas</div>
+      <h3>Colombia-Venezuela Border Reopens After 18-Month Shutdown — Tensions Remain</h3>
+      <p>Trade resumed at four crossings this morning, but military posturing on both sides signals the détente remains fragile ahead of next month's negotiations.</p>
+      <div class="card-footer"><span>Carlos Mendez · Bogotá</span><span>2 hr ago</span></div>
+    </div>
+  </section>
+
+  <!-- 3D GLOBE FEATURE -->
+  <section class="globe-feature">
+    <div class="globe-feature-text">
+      <h2>The New Architecture of Global Power: A Visual Guide to Shifting Alliances</h2>
+      <p>From the Indo-Pacific to the Atlantic rim, the alliance map is being redrawn at unprecedented speed. Our correspondents track the fault lines, the pivots, and the powers that refuse to choose sides.</p>
+      <a href="#" class="read-more">Explore the Full Report →</a>
+    </div>
+    <div class="sphere-container">
+      <div class="sphere-wrap">
+        <div class="orbit-ring"><div class="orbit-dot"></div></div>
+        <div class="orbit-ring"></div>
+        <div class="sphere">
+          <div class="sphere-grid-lines"></div>
+          <div class="sphere-shine"></div>
+          <svg class="sphere-star-svg" viewBox="0 0 40 40" fill="none">
+            <path d="M20 4 L21.8 17.2 L35 20 L21.8 22.8 L20 36 L18.2 22.8 L5 20 L18.2 17.2 Z" fill="#c9a84c"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IN DEPTH -->
+  <section class="analysis-grid">
+    <div class="analysis-label-col">
+      <h2>In Depth</h2>
+      <a href="#" class="view-all">All Analysis →</a>
+    </div>
+    <div class="analysis-stories">
+      <div class="analysis-story">
+        <div class="story-num">01</div>
+        <span class="region-tag">Global · Economy</span>
+        <h3>The Dollar's Diminishing Dominance and What Comes After</h3>
+        <p>De-dollarisation is real but slow and fragmented. The world may not be moving toward a new reserve currency — but toward none at all.</p>
+      </div>
+      <div class="analysis-story">
+        <div class="story-num">02</div>
+        <span class="region-tag">Europe · Security</span>
+        <h3>Mapping the New Iron Curtain: Europe's Emerging Fault Lines</h3>
+        <p>A generation after the Wall fell, a new division is being constructed — not in concrete, but in fibre-optic cables, sanctions, and intelligence-sharing agreements.</p>
+      </div>
+      <div class="analysis-story">
+        <div class="story-num">03</div>
+        <span class="region-tag">Asia-Pacific · Tech</span>
+        <h3>Semiconductor Wars: The Geography of the Next Superpower Conflict</h3>
+        <p>Control over chip production and rare earth supply chains has become the defining contest of the 21st century — its frontlines run through Taiwan and the Dutch plains.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-col">
+      <h4>Coverage</h4>
+      <a href="#">Middle East</a><a href="#">Europe</a><a href="#">Asia-Pacific</a>
+      <a href="#">Americas</a><a href="#">Africa</a><a href="#">Global Economy</a>
+    </div>
+    <div class="footer-col">
+      <h4>Formats</h4>
+      <a href="#">Breaking News</a><a href="#">Opinion & Essays</a><a href="#">In-Depth Analysis</a>
+      <a href="#">Data & Indicators</a><a href="#">Morning Brief</a><a href="#">Podcast</a>
+    </div>
+    <div class="footer-col">
+      <h4>Publication</h4>
+      <a href="#">About Us</a><a href="#">Editorial Board</a><a href="#">Contributors</a>
+      <a href="#">Press & Media</a><a href="#">Careers</a><a href="#">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Morning Brief — Newsletter</h4>
+      <div class="newsletter-form">
+        <p>The day's most consequential geopolitical developments, distilled. Delivered at 06:00 GMT.</p>
+        <input type="email" placeholder="your@email.com">
+        <button type="button">Subscribe Free →</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="copy">© 2026 Geopolitics Now. All rights reserved. Independent. Unaffiliated. Rigorous.</span>
+    <span class="footer-brand">Geopolitics Now</span>
+  </div>
+</footer>
+
+</body>
+</html>

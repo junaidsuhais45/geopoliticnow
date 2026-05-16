@@ -1,0 +1,13 @@
+{
+  "name": "geopolitics-now",
+  "version": "1.0.0",
+  "description": "AI-powered geopolitics news site — auto-updated daily",
+  "main": "generate-content.js",
+  "scripts": {
+    "build": "node generate-content.js",
+    "dev": "node generate-content.js && open dist/index.html"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

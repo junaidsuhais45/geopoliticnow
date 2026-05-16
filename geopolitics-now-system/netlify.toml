@@ -1,0 +1,9 @@
+[build]
+  # The folder GitHub Actions writes the site into
+  publish = "dist"
+
+  # No build command needed — GitHub Actions handles everything
+  command = ""
+
+[build.environment]
+  NODE_VERSION = "20"
