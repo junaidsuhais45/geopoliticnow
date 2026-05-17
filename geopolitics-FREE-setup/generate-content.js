@@ -8,7 +8,7 @@ const https = require("https");
 const fs = require("fs");
 const path = require("path");
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_MODEL = "gemini-2.0-flash";
 const GEMINI_MODEL = "gemini-1.5-flash"; // Free tier model
 
 // ─── HELPER: Call Gemini API ───────────────────────────────
