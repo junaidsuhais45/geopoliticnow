@@ -9,7 +9,7 @@ const fs = require("fs");
 const path = require("path");
 
 const GEMINI_MODEL = "gemini-2.0-flash";
-const GEMINI_MODEL = "gemini-1.5-flash"; // Free tier model
+const GEMINI_MODEL = "gemini-2.0-flash"; // Free tier model
 
 // ─── HELPER: Call Gemini API ───────────────────────────────
 function callGemini(prompt) {
